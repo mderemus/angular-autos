@@ -1,4 +1,4 @@
-<p-table #dt [columns]="selectedColumns" [value]="cars" [paginator]="true" [rows]="10">
+<p-table #dt [columns]="selectedColumns" [value]="cars" [paginator]="true" [rows]="10" sortMode="multiple">
 	<ng-template pTemplate="caption">
 		<div style="text-align: left">
 			<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -13,8 +13,9 @@
 	</ng-template>
 	<ng-template pTemplate="header" let-columns>
 		<tr>
-			<th *ngFor="let col of columns">
+			<th *ngFor="let col of columns" [pSortableColumn]="col.field">
 				{{col.header}}
+				<p-sortIcon [field]="col.field"></p-sortIcon>
 			</th>
 		</tr>
 		<tr>
@@ -50,6 +51,8 @@
 				<p-multiSelect *ngSwitchCase="'hasNavigation'" [options]="yesNoOptions" [style]="{'width':'100%'}"
 					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
 				<p-multiSelect *ngSwitchCase="'hasPowerWindows'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'hasLowMiles'" [options]="yesNoOptions" [style]="{'width':'100%'}"
 					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
 			</th>
 		</tr>

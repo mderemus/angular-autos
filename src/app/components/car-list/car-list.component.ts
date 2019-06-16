@@ -59,6 +59,7 @@ export class CarListComponent implements OnInit {
 			{ field: 'hasNavigation', header: 'Navigation', display: 'table-cell' },
 			{ field: 'hasPowerWindows', header: 'Power Windows', display: 'table-cell' },
 			{ field: 'hasSunroof', header: 'Sunroof', display: 'table-cell' },
+			{ field: 'hasLowMiles', header: 'Low Miles', display: 'table-cell' },
 			{ field: 'isFourWheelDrive', header: '4WD', display: 'table-cell' }
 		];
 
