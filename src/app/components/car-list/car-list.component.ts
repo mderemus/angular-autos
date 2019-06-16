@@ -31,8 +31,8 @@ export class CarListComponent implements OnInit {
 				style: 'currency',
 				currency: 'USD',
 			});
-			console.log(this.cars);
-			for (const carData of this.cars) {
+
+			for (let carData of this.cars) {
 				// Formatting for viewer's sake
 				carData.hasHeatedSeats = this.trueFalseRename(carData.hasHeatedSeats);
 				carData.hasSunroof = this.trueFalseRename(carData.hasSunroof);
