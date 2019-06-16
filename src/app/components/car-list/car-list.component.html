@@ -1,0 +1,74 @@
+<p-table #dt [columns]="selectedColumns" [value]="cars" [paginator]="true" [rows]="10">
+	<ng-template pTemplate="caption">
+		<div style="text-align: left">
+			<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+			<input type="text" pInputText size="50" placeholder="Global Filter"
+				(input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+		</div>
+		<div style="text-align:right">
+			<p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+				selectedItemsLabel="Showing {0} features" [style]="{minWidth: '200px'}" defaultLabel="Choose Features">
+			</p-multiSelect>
+		</div>
+	</ng-template>
+	<ng-template pTemplate="header" let-columns>
+		<tr>
+			<th *ngFor="let col of columns">
+				{{col.header}}
+			</th>
+		</tr>
+		<tr>
+			<th *ngFor="let col of columns" [ngSwitch]="col.field">
+				<input *ngSwitchCase="'vin'" pInputText type="text"
+					(input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+
+				<div *ngSwitchCase="'price'">
+					Less than {{priceFilter}} <i class="fa fa-close"
+						(click)="priceFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"
+						*ngIf="priceFilter"></i>
+					<p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="priceFilter" [min]="0" [max]="50000"
+						(onChange)="onPriceChange($event, dt)"></p-slider>
+				</div>
+
+				<div *ngSwitchCase="'year'">
+					Newer than {{yearFilter}} <i class="fa fa-close"
+						(click)="yearFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"
+						*ngIf="yearFilter"></i>
+					<p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearFilter" [min]="2000" [max]="maxYear"
+						(onChange)="onYearChange($event, dt)"></p-slider>
+				</div>
+				<p-multiSelect *ngSwitchCase="'make'" [options]="makes" [style]="{'width':'100%'}" defaultLabel="All Makes"
+					(onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'color'" [options]="colors" [style]="{'width':'100%'}" defaultLabel="All Colors"
+					(onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'hasSunroof'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'isFourWheelDrive'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'hasHeatedSeats'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'hasNavigation'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+				<p-multiSelect *ngSwitchCase="'hasPowerWindows'" [options]="yesNoOptions" [style]="{'width':'100%'}"
+					defaultLabel="All" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+			</th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-rowData let-columns="columns">
+		<tr [pSelectableRow]="rowData">
+			<td *ngFor="let col of columns">
+				<div *ngIf="columns !== 'priceValue'">
+					{{rowData[col.field]}}
+				</div>
+			</td>
+		</tr>
+	</ng-template>
+</p-table>
+<tr>
+	<!-- <td>
+		{{rowData.price}}
+	</td>
+	<td>
+		{{rowData.make}}
+	</td>
+</tr> -->
