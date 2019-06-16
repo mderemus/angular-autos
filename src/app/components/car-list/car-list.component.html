@@ -1,14 +1,21 @@
-<p-table #dt [columns]="selectedColumns" [value]="cars" [paginator]="true" [rows]="10" sortMode="multiple">
+<p-table #dt [columns]="selectedColumns" [value]="cars" [paginator]="true" [rows]="10" sortMode="multiple"
+	selectionMode="multiple" [(selection)]="selectedCars">
 	<ng-template pTemplate="caption">
 		<div style="text-align: left">
 			<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
 			<input type="text" pInputText size="50" placeholder="Global Filter"
 				(input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+			<span style="float:right;">
+				<p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+					selectedItemsLabel="Showing {0} features" [style]="{minWidth: '200px','text-align':'right'}"
+					defaultLabel="Choose Features">
+				</p-multiSelect>
+			</span>
 		</div>
-		<div style="text-align:right">
-			<p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-				selectedItemsLabel="Showing {0} features" [style]="{minWidth: '200px'}" defaultLabel="Choose Features">
-			</p-multiSelect>
+		<br>
+		<div class="ui-helper-clearfix">
+			<button type="button" pButton icon="fa fa-file" iconPos="left" label="Export Selected"
+				(click)="dt.exportCSV({selectionOnly:true})" style="float:left"></button>
 		</div>
 	</ng-template>
 	<ng-template pTemplate="header" let-columns>
@@ -22,7 +29,6 @@
 			<th *ngFor="let col of columns" [ngSwitch]="col.field">
 				<input *ngSwitchCase="'vin'" pInputText type="text"
 					(input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-
 				<div *ngSwitchCase="'price'">
 					Less than {{priceFilter}} <i class="fa fa-close"
 						(click)="priceFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"
@@ -30,7 +36,6 @@
 					<p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="priceFilter" [min]="0" [max]="50000"
 						(onChange)="onPriceChange($event, dt)"></p-slider>
 				</div>
-
 				<div *ngSwitchCase="'year'">
 					Newer than {{yearFilter}} <i class="fa fa-close"
 						(click)="yearFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"
@@ -68,10 +73,3 @@
 	</ng-template>
 </p-table>
 <tr>
-	<!-- <td>
-		{{rowData.price}}
-	</td>
-	<td>
-		{{rowData.make}}
-	</td>
-</tr> -->

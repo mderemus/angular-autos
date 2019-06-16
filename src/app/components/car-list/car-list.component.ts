@@ -21,6 +21,7 @@ export class CarListComponent implements OnInit {
 	priceTimeout: any;
 
 	selectedColumns: any[];
+	selectedCars: Car[];
 
 	constructor(private carService: CarsService) { }
 
@@ -43,10 +44,7 @@ export class CarListComponent implements OnInit {
 				carData.priceValue = carData.price;
 				carData.price = formatter.format(+carData.price);
 			}
-
-
-			this.loadMakesToSelect();
-			this.loadColorsToSelect();
+			this.loadValuesToSelect();
 		});
 
 		this.cols = [
@@ -62,7 +60,6 @@ export class CarListComponent implements OnInit {
 			{ field: 'hasLowMiles', header: 'Low Miles', display: 'table-cell' },
 			{ field: 'isFourWheelDrive', header: '4WD', display: 'table-cell' }
 		];
-
 
 		const headerFilter = (/\bID|\bHeated Seats|\bNavigation|\bPrice Value/g);
 		this.selectedColumns = this.cols.filter(a => a.header.search(headerFilter));
@@ -92,18 +89,14 @@ export class CarListComponent implements OnInit {
 		}, 250);
 	}
 
-	loadMakesToSelect() {
+	loadValuesToSelect() {
 		for (const carData of this.cars) {
 			this.makes.push({ label: carData.make, value: carData.make });
+			this.colors.push({ label: carData.color, value: carData.color });
 		}
 		this.makes = this.removeDuplicates(this.makes, 'label');
 		this.makes.sort((a, b) => a.label < b.label ? -1 : a.label > b.label ? 1 : 0);
-	}
 
-	loadColorsToSelect() {
-		for (const carData of this.cars) {
-			this.colors.push({ label: carData.color, value: carData.color });
-		}
 		this.colors = this.removeDuplicates(this.colors, 'label');
 		this.colors.sort((a, b) => a.label < b.label ? -1 : a.label > b.label ? 1 : 0);
 	}

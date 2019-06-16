@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SliderModule } from 'primeng/slider';
+import { ButtonModule } from 'primeng/button';
 
 
 // TODO: import any modules that will be used in the app
@@ -18,7 +19,7 @@ import { SliderModule } from 'primeng/slider';
 @NgModule({
 	declarations: [AppComponent, CarListComponent],
 	imports: [BrowserModule, HttpClientModule, FormsModule, BrowserAnimationsModule,
-		TableModule, DropdownModule, MultiSelectModule, SliderModule],
+		TableModule, DropdownModule, MultiSelectModule, SliderModule, ButtonModule],
 	providers: [HttpClientModule],
 	bootstrap: [AppComponent]
 })
